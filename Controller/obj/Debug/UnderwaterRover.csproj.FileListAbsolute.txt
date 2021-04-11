@@ -1,0 +1,9 @@
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\bin\Debug\UnderwaterRover.exe.config
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\bin\Debug\UnderwaterRover.exe
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\bin\Debug\UnderwaterRover.pdb
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\obj\Debug\UnderwaterRover.csprojAssemblyReference.cache
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\obj\Debug\UnderwaterRover.Form1.resources
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\obj\Debug\UnderwaterRover.Properties.Resources.resources
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\obj\Debug\UnderwaterRover.csproj.GenerateResource.cache
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\obj\Debug\UnderwaterRover.exe
+C:\Users\GCR\Documents\Perso\C#\UnderwaterRover\UnderwaterRover\obj\Debug\UnderwaterRover.pdb

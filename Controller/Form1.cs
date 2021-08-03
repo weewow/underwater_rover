@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
+using AForge.Video;
+using Accord.Video.FFMPEG;
+using System.Drawing.Imaging;
 
 namespace UnderwaterRover
 {
     public partial class Form1 : Form
     {
         IGestionnaireSousMarin gestionnaireSousMarin;
+        MJPEGStream stream;
+        VideoFileWriter fileWriter;
+
         public Form1()
         {
             InitializeComponent();
@@ -116,6 +117,41 @@ namespace UnderwaterRover
         private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void VideoStream_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        {
+            Bitmap FrameData = new Bitmap(eventArgs.Frame);
+            Bitmap clone = (Bitmap)FrameData.Clone();
+
+            pictureBox1.Image = FrameData;
+
+            // Ajouter la nouvelle image à la vidéo finale
+            if (fileWriter == null)
+            {
+                fileWriter = new VideoFileWriter();
+                fileWriter.Open("myfile.avi", pictureBox1.Image.Width, pictureBox1.Image.Height, 25, VideoCodec.MPEG4, 1000000);
+            }
+            fileWriter.WriteVideoFrame(clone);
+            clone.Dispose();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            // stream = new MJPEGStream("http://10.20.2.158:8080/?action=stream");
+            stream = new MJPEGStream("http://"+TbIpSousMarinUDP.Text+":8080/?action=stream");
+            stream.NewFrame += new AForge.Video.NewFrameEventHandler(VideoStream_NewFrame);
+            stream.Start();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            stream.Stop();
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            fileWriter.Close();
         }
     }
 }

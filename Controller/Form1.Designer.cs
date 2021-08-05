@@ -38,6 +38,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.BtnConnexion = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.BtnArreterEnregistrer = new System.Windows.Forms.Button();
             this.BtnConnexionIP = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.TbIpSousMarinUDP = new System.Windows.Forms.TextBox();
@@ -52,8 +53,8 @@
             this.BtnRight = new System.Windows.Forms.Button();
             this.BtnBackward = new System.Windows.Forms.Button();
             this.BtnLeft = new System.Windows.Forms.Button();
+            this.BtnEnregistrer = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.TabTcpIp.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -154,7 +155,8 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.button1);
+            this.tabPage3.Controls.Add(this.BtnEnregistrer);
+            this.tabPage3.Controls.Add(this.BtnArreterEnregistrer);
             this.tabPage3.Controls.Add(this.BtnConnexionIP);
             this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.TbIpSousMarinUDP);
@@ -166,14 +168,25 @@
             this.tabPage3.Text = "UDP";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // BtnArreterEnregistrer
+            // 
+            this.BtnArreterEnregistrer.Location = new System.Drawing.Point(573, 15);
+            this.BtnArreterEnregistrer.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnArreterEnregistrer.Name = "BtnArreterEnregistrer";
+            this.BtnArreterEnregistrer.Size = new System.Drawing.Size(132, 26);
+            this.BtnArreterEnregistrer.TabIndex = 22;
+            this.BtnArreterEnregistrer.Text = "arreter enregistrement";
+            this.BtnArreterEnregistrer.UseVisualStyleBackColor = true;
+            this.BtnArreterEnregistrer.Click += new System.EventHandler(this.button1_Click_2);
+            // 
             // BtnConnexionIP
             // 
-            this.BtnConnexionIP.Location = new System.Drawing.Point(280, 15);
+            this.BtnConnexionIP.Location = new System.Drawing.Point(244, 15);
             this.BtnConnexionIP.Margin = new System.Windows.Forms.Padding(2);
             this.BtnConnexionIP.Name = "BtnConnexionIP";
             this.BtnConnexionIP.Size = new System.Drawing.Size(86, 26);
             this.BtnConnexionIP.TabIndex = 21;
-            this.BtnConnexionIP.Text = "start";
+            this.BtnConnexionIP.Text = "connexion";
             this.BtnConnexionIP.UseVisualStyleBackColor = true;
             this.BtnConnexionIP.Click += new System.EventHandler(this.button1_Click_1);
             // 
@@ -349,37 +362,38 @@
             this.BtnLeft.Text = "4";
             this.BtnLeft.UseVisualStyleBackColor = true;
             // 
+            // BtnEnregistrer
+            // 
+            this.BtnEnregistrer.Location = new System.Drawing.Point(404, 15);
+            this.BtnEnregistrer.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnEnregistrer.Name = "BtnEnregistrer";
+            this.BtnEnregistrer.Size = new System.Drawing.Size(165, 26);
+            this.BtnEnregistrer.TabIndex = 23;
+            this.BtnEnregistrer.Text = "commencer enregistrement";
+            this.BtnEnregistrer.UseVisualStyleBackColor = true;
+            this.BtnEnregistrer.Click += new System.EventHandler(this.BtnEnregistrer_Click);
+            // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::UnderwaterRover.Properties.Resources.noir;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 84);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(778, 840);
-            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.Size = new System.Drawing.Size(778, 492);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 31;
             this.pictureBox1.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(394, 15);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 26);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "stop";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 924);
-            this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.TabTcpIp);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -430,8 +444,9 @@
         private System.Windows.Forms.Button BtnRight;
         private System.Windows.Forms.Button BtnBackward;
         private System.Windows.Forms.Button BtnLeft;
+        private System.Windows.Forms.Button BtnArreterEnregistrer;
+        private System.Windows.Forms.Button BtnEnregistrer;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
     }
 }
 

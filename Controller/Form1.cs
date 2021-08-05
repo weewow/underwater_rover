@@ -23,6 +23,8 @@ namespace UnderwaterRover
         private void Form1_Load(object sender, EventArgs e)
         {
             TabTcpIp.SelectedIndex = 2;
+            BtnArreterEnregistrer.Enabled = false;
+            BtnEnregistrer.Enabled = false;
         }
 
         private void BtnUp_Click(object sender, EventArgs e)
@@ -126,14 +128,18 @@ namespace UnderwaterRover
 
             pictureBox1.Image = FrameData;
 
-            // Ajouter la nouvelle image à la vidéo finale
-            if (fileWriter == null)
+            // Si on peut arrêter l'enregistrement, c'est que celui-ci est en cours
+            if (BtnArreterEnregistrer.Enabled)
             {
-                fileWriter = new VideoFileWriter();
-                fileWriter.Open("myfile.avi", pictureBox1.Image.Width, pictureBox1.Image.Height, 25, VideoCodec.MPEG4, 1000000);
+                // Ajouter la nouvelle image à la vidéo finale
+                if (fileWriter == null)
+                {
+                    fileWriter = new VideoFileWriter();
+                    fileWriter.Open("myfile.avi", pictureBox1.Image.Width, pictureBox1.Image.Height, 25, VideoCodec.MPEG4, 1000000);
+                }
+                fileWriter.WriteVideoFrame(clone);
+                clone.Dispose();
             }
-            fileWriter.WriteVideoFrame(clone);
-            clone.Dispose();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -142,6 +148,8 @@ namespace UnderwaterRover
             stream = new MJPEGStream("http://"+TbIpSousMarinUDP.Text+":8080/?action=stream");
             stream.NewFrame += new AForge.Video.NewFrameEventHandler(VideoStream_NewFrame);
             stream.Start();
+            //
+            BtnEnregistrer.Enabled = true;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -152,6 +160,15 @@ namespace UnderwaterRover
         private void button1_Click_2(object sender, EventArgs e)
         {
             fileWriter.Close();
+            //
+            BtnArreterEnregistrer.Enabled = false;
+            BtnEnregistrer.Enabled = true;
+        }
+
+        private void BtnEnregistrer_Click(object sender, EventArgs e)
+        {
+            BtnArreterEnregistrer.Enabled = true;
+            BtnEnregistrer.Enabled = false;
         }
     }
 }

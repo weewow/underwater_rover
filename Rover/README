@@ -1,0 +1,19 @@
+Paramètres du compilateur à appliquer dans codeBlock
+
+préférences du linker
+-lboost_system
+-lpthread -lm
+-lwiringPi
+
+répertoires de recherche
+-lboost_system
+-lpthread -lm
+-lwiringPi
+
+commande pour lancer un flux MJPEG sur le réseau :
+./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -fps 15"
+le lire via http://10.20.2.156:8080/?action=stream
+
+
+
+

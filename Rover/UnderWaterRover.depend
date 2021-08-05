@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1604076847 source:/home/pi/Documents/UnderWaterRover/main.cpp
+	<iostream>
+	<stdio.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<netdb.h>
+	<cstdlib>
+	<cstring>
+	<unistd.h>
+	<boost/asio.hpp>
+	<boost/array.hpp>
+	<boost/bind.hpp>
+	<wiringPi.h>
+	"Moteur.h"
+
+1604077321 source:/home/pi/Documents/UnderWaterRover/src/Moteur.cpp
+	"Moteur.h"
+	<wiringPi.h>
+	<iostream>
+	<stdio.h>
+
+1604077270 /home/pi/Documents/UnderWaterRover/include/Moteur.h
+	<wiringPi.h>
+

@@ -6,6 +6,12 @@ using AForge.Video;
 using Accord.Video.FFMPEG;
 using System.Drawing.Imaging;
 
+// TODO gérer le nom du fichier d'enregistrement ainsi que sa localisation
+// TODO ne pas enregistrer le flux vidéo si un fichier du nom demandé existe déjà
+// TODO ajouter des logos plus sympas
+// TODO gérer les appuis sur les touches du clavier pour controler le rover
+// TODO gérer les appuis de plusieurs touches en même temps pour envoyer plusieurs signaux simultanés au rover
+
 namespace UnderwaterRover
 {
     public partial class Form1 : Form

@@ -20,40 +20,51 @@ const int INSTRUCTION_TOURNER_GAUCHE = 4;
 const int INSTRUCTION_TOURNER_DROITE = 8;
 const int INSTRUCTION_MONTER = 16;
 const int INSTRUCTION_DESCENDRE = 32;
+const int MAX_ECART_ACCELERATION_MOTEUR = 6;
+const int BORNE_MIN_ACCELERATION_MOTEUR = 89;
+const int NEUTRE_ACCELERATION_MOTEUR = 111;
+const int BORNE_MAX_ACCELERATION_MOTEUR = 128;
 
 
 using namespace boost::asio;
 
 int main()
 {
+    std::cout << "dunderwater rover V2" << std::endl << std::flush;
     // Lancement de la librairie wiringPi
     wiringPiSetupGpio();
     // Initialisation des moteurs
-    MoteurSimonkFirmware propulseurGauche(18); // gpio18 soit la pin n°12
-    MoteurSimonkFirmware propulseurDroite(4); // gpio4 soit la pin n°7
-    MoteurSimonkFirmware regleurAssiette(5); // gpio5 soit la pin n°29
+    MoteurBidirectionnelZMA propulseurGauche(18); // gpio18 soit la pin n°12
+
+
+
+
+
+    // TODO : La gestion d'un seul moteur fonctionne mais pas de plusieurs moteurs simultanés
+
+
+    //MoteurBidirectionnelZMA propulseurDroite(4); // gpio4 soit la pin n°7
+    //MoteurBidirectionnelZMA regleurAssiette(5); // gpio5 soit la pin n°29
+
+    /*while(1)
+    {
+        for (int i=89; i<200; i+=1){
+            propulseurGauche.Actionner(i);
+            sleep(1);
+        }
+    }*/
+
+
     // Réceptions de données
-    std::cout << "V3 début de recherche d'instructions" << std::endl << std::flush;
+    std::cout << "début de recherche d'instructions" << std::endl << std::flush;
     int instruction;
     // A chaque tour il faut dire à tous les moteurs quoi faire
     // On calcul donc l'intensité avec laquelle ils doivent tourner en fonction de l'instruction reçue
     while(1)
     {
-
-    /*int j;
-    propulseurGauche.Actionner(0);
-            delay(10000);
-    propulseurGauche.Actionner(250);
-            delay(1000);
-        for(j=677; j<800; j++)
-        {
-            propulseurGauche.Actionner(j);
-            delay(500);
-        }*/
-
-        int intensitePropulseurGauche(0);
-        int intensitePropulseurDroite(0);
-        int intensiteRegleurAssiette(0);
+        int intensitePropulseurGauche(NEUTRE_ACCELERATION_MOTEUR);
+        int intensitePropulseurDroite(NEUTRE_ACCELERATION_MOTEUR);
+        int intensiteRegleurAssiette(NEUTRE_ACCELERATION_MOTEUR);
         //
         boost::asio::io_service io_service;
         ip::udp::endpoint endpoint(ip::udp::v4(), 12345);
@@ -69,62 +80,65 @@ int main()
             //
             std::cout << ret << " caractères;  reçu : **" << instruction << "**" << std::endl << std::flush;
             // Déterminer l'instruction à envoyer à chaque moteur
-            if (instruction && INSTRUCTION_AVANCER)
+            if (instruction & INSTRUCTION_AVANCER)
             {
-                intensitePropulseurGauche+=250;
-                intensitePropulseurDroite+=250;
+                intensitePropulseurGauche+=MAX_ECART_ACCELERATION_MOTEUR;
+                intensitePropulseurDroite+=MAX_ECART_ACCELERATION_MOTEUR;
                 intensiteRegleurAssiette+=0;
             }
-            if (instruction && INSTRUCTION_RECULER)
+            if (instruction & INSTRUCTION_RECULER)
             {
                 intensitePropulseurGauche+=0;
                 intensitePropulseurDroite+=0;
                 intensiteRegleurAssiette+=0;
             }
-            if (instruction && INSTRUCTION_TOURNER_GAUCHE)
+            if (instruction & INSTRUCTION_TOURNER_GAUCHE)
             {
-                intensitePropulseurGauche-=250;
-                intensitePropulseurDroite+=250;
+                intensitePropulseurGauche-=MAX_ECART_ACCELERATION_MOTEUR;
+                intensitePropulseurDroite+=MAX_ECART_ACCELERATION_MOTEUR;
                 intensiteRegleurAssiette+=0;
             }
-            if (instruction && INSTRUCTION_TOURNER_DROITE)
+            if (instruction & INSTRUCTION_TOURNER_DROITE)
             {
-                intensitePropulseurGauche+=250;
-                intensitePropulseurDroite-=250;
+                intensitePropulseurGauche+=MAX_ECART_ACCELERATION_MOTEUR;
+                intensitePropulseurDroite-=MAX_ECART_ACCELERATION_MOTEUR;
                 intensiteRegleurAssiette+=0;
             }
-            if (instruction && INSTRUCTION_MONTER)
+            if (instruction & INSTRUCTION_MONTER)
             {
                 intensitePropulseurGauche+=0;
                 intensitePropulseurDroite+=0;
-                intensiteRegleurAssiette+=250;
+                intensiteRegleurAssiette+=MAX_ECART_ACCELERATION_MOTEUR;
             }
-            if (instruction && INSTRUCTION_DESCENDRE)
+            if (instruction & INSTRUCTION_DESCENDRE)
             {
                 intensitePropulseurGauche+=0;
                 intensitePropulseurDroite+=0;
                 intensiteRegleurAssiette+=0;
             }
             // Nettoyage des valeurs de commande
-            intensitePropulseurGauche = intensitePropulseurGauche < 0 ? 0 : intensitePropulseurGauche;
-            intensitePropulseurGauche = intensitePropulseurGauche > 500 ? 500 : intensitePropulseurGauche;
-            intensitePropulseurDroite = intensitePropulseurDroite < 0 ? 0 : intensitePropulseurDroite;
-            intensitePropulseurDroite = intensitePropulseurDroite > 500 ? 500 : intensitePropulseurDroite;
-            intensiteRegleurAssiette = intensiteRegleurAssiette < 0 ? 0 : intensiteRegleurAssiette;
-            intensiteRegleurAssiette = intensiteRegleurAssiette > 500 ? 500 : intensiteRegleurAssiette;
+            intensitePropulseurGauche = intensitePropulseurGauche < BORNE_MIN_ACCELERATION_MOTEUR ? BORNE_MIN_ACCELERATION_MOTEUR : intensitePropulseurGauche;
+            intensitePropulseurGauche = intensitePropulseurGauche > BORNE_MAX_ACCELERATION_MOTEUR ? BORNE_MAX_ACCELERATION_MOTEUR : intensitePropulseurGauche;
+            intensitePropulseurDroite = intensitePropulseurDroite < BORNE_MIN_ACCELERATION_MOTEUR ? BORNE_MIN_ACCELERATION_MOTEUR : intensitePropulseurDroite;
+            intensitePropulseurDroite = intensitePropulseurDroite > BORNE_MAX_ACCELERATION_MOTEUR ? BORNE_MAX_ACCELERATION_MOTEUR : intensitePropulseurDroite;
+            intensiteRegleurAssiette = intensiteRegleurAssiette < BORNE_MIN_ACCELERATION_MOTEUR ? BORNE_MIN_ACCELERATION_MOTEUR : intensiteRegleurAssiette;
+            intensiteRegleurAssiette = intensiteRegleurAssiette > BORNE_MAX_ACCELERATION_MOTEUR ? BORNE_MAX_ACCELERATION_MOTEUR : intensiteRegleurAssiette;
             // Activer les moteurs
             propulseurGauche.Actionner(intensitePropulseurGauche);
-            propulseurDroite.Actionner(intensitePropulseurDroite);
+            sleep(1);
+            /*propulseurDroite.Actionner(intensitePropulseurDroite);
+            sleep(1);
             regleurAssiette.Actionner(intensiteRegleurAssiette);
+            sleep(1);*/
             // Préparer l'itération suivante
-            intensitePropulseurGauche = 0;
-            intensitePropulseurDroite = 0;
-            intensiteRegleurAssiette = 0;
+            intensitePropulseurGauche = NEUTRE_ACCELERATION_MOTEUR;
+            intensitePropulseurDroite = NEUTRE_ACCELERATION_MOTEUR;
+            intensiteRegleurAssiette = NEUTRE_ACCELERATION_MOTEUR;
         }else // Rien à faire, on met donc les moteurs à l'arrêt
         {
-            propulseurGauche.Actionner(0);
-            propulseurDroite.Actionner(0);
-            regleurAssiette.Actionner(0);
+            propulseurGauche.Actionner(NEUTRE_ACCELERATION_MOTEUR);
+            //propulseurDroite.Actionner(NEUTRE_ACCELERATION_MOTEUR);
+            //regleurAssiette.Actionner(NEUTRE_ACCELERATION_MOTEUR);
         }
     }
     //

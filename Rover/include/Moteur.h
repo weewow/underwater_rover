@@ -33,4 +33,19 @@ class MoteurSimonkFirmware : AbstractMotor
         virtual void Actionner(unsigned int pIntensite);
 };
 
+// Moteur dirigé par un ESC avec le firmware ZMA
+// Le signal PWM à 0 permet d'initialiser l'ESC
+// La valeur minimale pour faire tourner le moteur est 250
+// la valeur max est ...
+// Le moteur peut tourner dans les deux sens
+class MoteurBidirectionnelZMA : AbstractMotor
+{
+    public:
+        MoteurBidirectionnelZMA(unsigned int pPinNumber);
+        virtual ~MoteurBidirectionnelZMA();
+        //
+        virtual void armerESC();
+        virtual void Actionner(unsigned int pIntensite);
+};
+
 #endif // MOTEUR_H
